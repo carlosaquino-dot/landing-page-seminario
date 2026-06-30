@@ -23,12 +23,12 @@ const CONFIG = {
   // Mensaje precargado del botón de WhatsApp.
   whatsappMessage: "Hola, quiero información sobre el Seminario Profesional de Residencia de Familiar de Ciudadano Español",
 
-  // Enlace de acceso a la sesión en vivo (Zoom u otra plataforma).
-  zoomLink: "[LINK_DE_ZOOM]",
+  // Enlace de acceso a la sesión en vivo (Google Meet).
+  meetLink: "[LINK_DE_GOOGLE_MEET]",
 
   // Fecha y hora del seminario, tal como se mostrarán en la página.
-  seminarDate: "[FECHA_DEL_SEMINARIO]",
-  seminarTime: "[HORA_DEL_SEMINARIO]",
+  seminarDate: "14 de agosto de 2026",
+  seminarTime: "4:30 p. m. (hora de Santo Domingo, RD)",
 
   // Correo de contacto.
   contactEmail: "[EMAIL_DE_CONTACTO]",
@@ -263,6 +263,55 @@ function revealGracias() {
   gracias.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// Formulario alternativo: visitantes que aún no quieren completar la
+// inscripción/pago pueden dejar solo sus datos básicos de contacto para
+// que el equipo de Emigrafácil España los contacte directamente.
+function initContactoForm() {
+  const form = document.getElementById("contactoForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!validateForm(form)) {
+      const firstError = form.querySelector(".has-error");
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    const submitBtn = form.querySelector("button[type='submit']");
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando…";
+
+    const data = collectFormData(form);
+    data.tipo_solicitud = "Solo contacto (sin inscripción ni pago)";
+    await sendToWebhook(data);
+
+    // Guarda una copia local de respaldo de la solicitud de contacto.
+    try {
+      window.localStorage.setItem("emigrafacil_contacto", JSON.stringify(data));
+    } catch (err) {
+      /* localStorage no disponible: se omite sin afectar el flujo. */
+    }
+
+    revealGraciasContacto();
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+    form.reset();
+  });
+}
+
+function revealGraciasContacto() {
+  const gracias = document.getElementById("graciasContacto");
+  if (!gracias) return;
+  gracias.hidden = false;
+  gracias.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 // Si Stripe redirige de vuelta con ?success=true (configurando la
 // success_url del Payment Link a esta misma página), se muestra
 // automáticamente el mensaje de confirmación.
@@ -290,6 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileNav();
   initAccordion();
   initInscripcionForm();
+  initContactoForm();
   checkPaymentReturn();
   setCurrentYear();
 });

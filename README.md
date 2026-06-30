@@ -69,7 +69,7 @@ Todos los textos y enlaces variables están en el mismo objeto `CONFIG`:
 
 | Variable | Qué controla |
 |---|---|
-| `zoomLink` | Enlace a la sesión en vivo |
+| `meetLink` | Enlace de Google Meet a la sesión en vivo |
 | `seminarDate` | Fecha que aparece en la sección Modalidad |
 | `seminarTime` | Hora del seminario |
 | `contactEmail` | Correo en el footer |

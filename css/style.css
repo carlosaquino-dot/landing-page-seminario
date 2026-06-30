@@ -308,15 +308,16 @@ button{font-family:inherit;cursor:pointer;}
 .form__field--full{grid-column:1 / -1;}
 .form__field label{font-size:.85rem;font-weight:700;color:var(--navy-800);}
 .req{color:var(--danger);}
-.form__field input,.form__field select{
+.form__field input,.form__field select,.form__field textarea{
   border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;
   font-size:.96rem;font-family:inherit;color:var(--ink-900);background:var(--white);
   transition:border-color .2s, box-shadow .2s;
 }
-.form__field input:focus,.form__field select:focus{
+.form__field textarea{resize:vertical;}
+.form__field input:focus,.form__field select:focus,.form__field textarea:focus{
   outline:none;border-color:var(--gold-500);box-shadow:0 0 0 3px rgba(201,162,39,.18);
 }
-.form__field.has-error input,.form__field.has-error select{border-color:var(--danger);}
+.form__field.has-error input,.form__field.has-error select,.form__field.has-error textarea{border-color:var(--danger);}
 .form__error{display:none;color:var(--danger);font-size:.8rem;}
 .form__field.has-error .form__error{display:block;}
 .form__checkboxes{display:flex;flex-direction:column;gap:14px;margin-top:8px;}
@@ -331,9 +332,16 @@ button{font-family:inherit;cursor:pointer;}
   background:var(--gold-50);border:1px solid var(--gold-300);border-radius:var(--radius-lg);
   padding:44px 32px;margin-top:32px;
 }
+.gracias-box[hidden]{display:none;}
 .gracias-box .icon{--icon-color:var(--success);width:52px;height:52px;margin-bottom:6px;}
 .gracias-box h3{color:var(--navy-900);}
 .gracias-box .btn{margin-top:14px;}
+
+.contact-lead{max-width:760px;margin:56px auto 0;padding-top:40px;border-top:1px solid var(--border);}
+.contact-lead__head{text-align:center;margin-bottom:24px;}
+.contact-lead__head h3{color:var(--navy-900);margin-bottom:8px;}
+.contact-lead__head p{color:var(--ink-700);}
+.form--compact{padding:32px;}
 
 /* ---------- 15. FAQ / Acordeón ---------- */
 .accordion__item{border-bottom:1px solid var(--border);}
